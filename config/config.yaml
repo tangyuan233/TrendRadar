@@ -99,6 +99,9 @@ platforms:
     - id: "zhihu"
       name: "知乎"
       expected_domain: "zhihu.com"
+    - id: "solidot"
+      name: "Solidot 奇客"
+      expected_domain: "solidot.org"
 
 
 
@@ -160,10 +163,6 @@ rss:
     - id: "paul-graham"
       name: "Paul Graham Essays"
       url: "https://brianvia.blog/feeds/paul-graham.xml"
-
-    - id: "solidot"
-      name: "Solidot 奇客"
-      url: "https://www.solidot.org/index.rss"
 
     - id: "benedict-evans"
       name: "Benedict Evans"
