@@ -141,6 +141,50 @@ rss:
       name: "雅虎财经"
       url: "https://finance.yahoo.com/news/rssindex"
 
+    - id: "baoyu"
+      name: "宝玉的分享"
+      url: "https://s.baoyu.io/feed.xml"
+
+    - id: "chinai"
+      name: "ChinAI Newsletter"
+      url: "https://chinai.substack.com/feed"
+
+    - id: "collabfund"
+      name: "Collaborative Fund"
+      url: "http://feeds.feedburner.com/collabfund"
+
+    - id: "lilian-weng"
+      name: "Lilian Weng's Blog"
+      url: "https://lilianweng.github.io/index.xml"
+
+    - id: "paul-graham"
+      name: "Paul Graham Essays"
+      url: "https://brianvia.blog/feeds/paul-graham.xml"
+
+    - id: "solidot"
+      name: "Solidot 奇客"
+      url: "https://www.solidot.org/index.rss"
+
+    - id: "benedict-evans"
+      name: "Benedict Evans"
+      url: "https://www.ben-evans.com/benedictevans?format=rss"
+
+    - id: "on-substack"
+      name: "On Substack"
+      url: "https://on.substack.com/feed/"
+
+    - id: "simon-willison"
+      name: "Simon Willison's Weblog"
+      url: "https://simonwillison.net/atom/everything/"
+
+    - id: "decohack"
+      name: "Decohack"
+      url: "https://decohack.com/feed/"
+
+    - id: "xpert-digital"
+      name: "Xpert.Digital"
+      url: "https://xpert.digital/en/feed/"
+
     # 自定义源示例
     # - id: "custom-feed"
     #   name: "自定义源"
