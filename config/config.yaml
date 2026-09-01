@@ -530,6 +530,7 @@ advanced:
     feishu: 30000
     bark: 4000
     slack: 4000
-    generic_webhook: 1024               # 通用 Webhook 单批大小（Pushover 单条消息上限约 1024 字符）
+    generic_webhook: 2800                # 通用 Webhook 单批大小（字节）。Pushover 单条消息上限是 1024 字符，
+                                          # 但分批按 UTF-8 字节数计算，中文 1 字符≈3 字节，故留够余量取 2800 字节
   batch_send_interval: 3              # 批次发送间隔（秒）
   feishu_message_separator: "━━━━━━━━━━━━━━━━"
