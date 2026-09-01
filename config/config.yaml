@@ -159,10 +159,6 @@ rss:
       name: "Benedict Evans"
       url: "https://www.ben-evans.com/benedictevans?format=rss"
 
-    - id: "on-substack"
-      name: "On Substack"
-      url: "https://on.substack.com/feed/"
-
     - id: "simon-willison"
       name: "Simon Willison's Weblog"
       url: "https://simonwillison.net/atom/everything/"
@@ -170,10 +166,6 @@ rss:
     - id: "decohack"
       name: "Decohack"
       url: "https://decohack.com/feed/"
-
-    - id: "xpert-digital"
-      name: "Xpert.Digital"
-      url: "https://xpert.digital/en/feed/"
 
     # 自定义源示例
     # - id: "custom-feed"
