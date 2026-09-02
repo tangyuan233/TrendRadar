@@ -1221,6 +1221,7 @@ def send_to_generic_webhook(
     ai_analysis: Any = None,
     display_regions: Optional[Dict] = None,
     standalone_data: Optional[Dict] = None,
+    reverse_order: bool = False,
 ) -> bool:
     """
     发送到通用 Webhook（支持分批发送，支持自定义 JSON 模板，支持热榜+RSS合并+独立展示区）
@@ -1239,6 +1240,10 @@ def send_to_generic_webhook(
         split_content_func: 内容分批函数
         rss_items: RSS 统计条目列表（可选，用于合并推送）
         rss_new_items: RSS 新增条目列表（可选，用于新增区块）
+        reverse_order: 是否反向发送批次（True 时先发最后一批，再发第一批）。
+            部分推送 App（如 Pushover）在客户端把最新到达的消息显示在最上面，
+            正向发送会导致阅读顺序被打乱成"最后一批显示在最上面"，
+            反向发送可以让客户端最终显示顺序变回从头到尾。
 
     Returns:
         bool: 发送是否成功
@@ -1275,13 +1280,22 @@ def send_to_generic_webhook(
     # 统一添加批次头部
     batches = add_batch_headers(batches, "wework", batch_size)
 
-    print(f"{log_prefix}消息分为 {len(batches)} 批次发送 [{report_type}]")
+    total_batches = len(batches)
+    print(f"{log_prefix}消息分为 {total_batches} 批次发送 [{report_type}]")
+
+    if reverse_order:
+        print(f"{log_prefix}将按反向顺序推送（最后批次先推送），确保客户端显示顺序正确")
+        send_batches = list(reversed(batches))
+    else:
+        send_batches = batches
 
     # 逐批发送
-    for i, batch_content in enumerate(batches, 1):
+    for idx, batch_content in enumerate(send_batches, 1):
+        # 反向发送时，换算回用户视角的批次编号
+        i = total_batches - idx + 1 if reverse_order else idx
         content_size = len(batch_content.encode("utf-8"))
         print(
-            f"发送{log_prefix}第 {i}/{len(batches)} 批次，大小：{content_size} 字节 [{report_type}]"
+            f"发送{log_prefix}第 {i}/{total_batches} 批次，大小：{content_size} 字节 [{report_type}]"
         )
 
         try:
@@ -1291,9 +1305,9 @@ def send_to_generic_webhook(
                 # 注意：content 可能包含 JSON 特殊字符，需要先转义
                 json_content = json.dumps(batch_content)[1:-1] # 去掉首尾引号
                 json_title = json.dumps(report_type)[1:-1]
-                
+
                 payload_str = payload_template.replace("{content}", json_content).replace("{title}", json_title)
-                
+
                 # 尝试解析为 JSON 对象以验证有效性
                 try:
                     payload = json.loads(payload_str)
@@ -1308,18 +1322,18 @@ def send_to_generic_webhook(
             response = requests.post(
                 webhook_url, headers=headers, json=payload, proxies=proxies, timeout=30
             )
-            
+
             if response.status_code >= 200 and response.status_code < 300:
-                print(f"{log_prefix}第 {i}/{len(batches)} 批次发送成功 [{report_type}]")
-                if i < len(batches):
+                print(f"{log_prefix}第 {i}/{total_batches} 批次发送成功 [{report_type}]")
+                if idx < total_batches:
                     time.sleep(batch_interval)
             else:
                 print(
-                    f"{log_prefix}第 {i}/{len(batches)} 批次发送失败 [{report_type}]，状态码：{response.status_code}, 响应: {response.text}"
+                    f"{log_prefix}第 {i}/{total_batches} 批次发送失败 [{report_type}]，状态码：{response.status_code}, 响应: {response.text}"
                 )
                 return False
         except Exception as e:
-            print(f"{log_prefix}第 {i}/{len(batches)} 批次发送出错 [{report_type}]：{e}")
+            print(f"{log_prefix}第 {i}/{total_batches} 批次发送出错 [{report_type}]：{e}")
             return False
 
     print(f"{log_prefix}所有 {len(batches)} 批次发送完成 [{report_type}]")

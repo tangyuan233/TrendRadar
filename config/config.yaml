@@ -318,10 +318,14 @@ notification:
       webhook_url: ""                 # Slack Incoming Webhook URL
 
     generic_webhook:
-      webhook_url: ""                 # 通用 Webhook URL（支持 Discord、Matrix、IFTTT 等）
+      webhook_url: ""                 # 通用 Webhook URL（支持 Discord、Matrix、IFTTT、Pushover 等）
       payload_template: ""            # JSON 模板，支持 {title} 和 {content} 占位符
                                       # 示例：{"content": "{content}"}
                                       # 留空则使用默认格式：{"title": "{title}", "content": "{content}"}
+      reverse_order: true             # 多批次时是否反向发送（先发最后一批）
+                                      # Pushover 等 App 会把最新收到的消息显示在最上面，
+                                      # 正向发送会导致阅读顺序被打乱成"最后一批在最上面"
+                                      # 若目标不是这类"最新在上"的 App（比如按时间顺序排列的频道），改为 false
 
 
 # ===============================================================
