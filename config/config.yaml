@@ -161,6 +161,10 @@ rss:
       name: "Decohack"
       url: "https://decohack.com/feed/"
 
+    - id: "ftc-press"
+      name: "FTC Press Releases"
+      url: "http://ftc.gov/feeds/press-release.xml"
+
     # 自定义源示例
     # - id: "custom-feed"
     #   name: "自定义源"
